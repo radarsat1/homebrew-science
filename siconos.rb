@@ -53,14 +53,14 @@ class Siconos < Formula
     # executable
     system "#{bin}/siconos", "-h"
     # python modules
-    system "python", "-c", "import siconos"
-    system "python", "-c", "import siconos.kernel"
-    system "python", "-c", "import siconos.kernel; siconos.kernel.SiconosVector()"
-    system "python", "-c", "import siconos.mechanics"
-    system "python", "-c", "import siconos.mechanics.joints"
-    system "python", "-c", "import siconos.mechanics.contact_detection.bullet"
-    system "python", "-c", "import siconos.control"
-    system "python", "-c", "import siconos.io"
+    system "python", "-B", "-c", "import siconos"
+    system "python", "-B", "-c", "import siconos.kernel"
+    system "python", "-B", "-c", "import siconos.kernel; siconos.kernel.SiconosVector()"
+    system "python", "-B", "-c", "import siconos.mechanics"
+    system "python", "-B", "-c", "import siconos.mechanics.joints"
+    system "python", "-B", "-c", "import siconos.mechanics.contact_detection.bullet"
+    system "python", "-B", "-c", "import siconos.control"
+    system "python", "-B", "-c", "import siconos.io"
     # a C++ user program
     (testpath/"test.cpp").write <<-EOS.undent
     #include <SiconosKernel.hpp>
@@ -82,6 +82,6 @@ class Siconos < Formula
       with Hdf5(mode='r+') as io:
         io.run(t0=0,T=1,h=1)
     EOS
-    system "siconos", "test.py"
+    system "siconos", "-B", (testpath/"test.py")
   end
 end
