@@ -68,7 +68,10 @@ class Siconos < Formula
       new NewtonImpactFrictionNSL(0.8, 0., 0.0, 3));
       return 0; }
     EOS
-    system "siconos", "test.cpp"
+    system "pwd"
+    system "ls","-a"
+    system "#{bin}/siconos", (testpath/"test.cpp")
+    system "ls","-a"
     # a mechanicsIO script
     (testpath/"test.py").write <<-EOS.undent
       from siconos.mechanics.contact_detection.tools import Contactor
