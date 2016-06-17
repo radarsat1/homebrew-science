@@ -85,6 +85,6 @@ class Siconos < Formula
       with Hdf5(mode='r+') as io:
         io.run(t0=0,T=1,h=1)
     EOS
-    system "siconos", "-B", (testpath/"test.py")
+    system "siconos", (testpath/"test.py")
   end
 end
