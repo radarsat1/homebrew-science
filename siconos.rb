@@ -6,7 +6,7 @@ class Siconos < Formula
   sha256 "8b8b6b11d225e8d7f8fc2d068aa5e24701edaf364ce334939f8175df7d1868ae"
   head "https://github.com/siconos/siconos.git"
 
-  depends_on "cmake" => :build
+  depends_on "cmake"
   depends_on :fortran
   depends_on "swig" => :build
   depends_on "bullet"
