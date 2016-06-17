@@ -11,9 +11,9 @@ class Siconos < Formula
   depends_on "swig" => :build
   depends_on "bullet"
   depends_on "boost"
-  depends_on "homebrew/python/numpy"
-  depends_on "homebrew/science/hdf5"
-  depends_on "homebrew/science/vtk"
+  depends_on "numpy"
+  depends_on "hdf5"
+  depends_on "vtk"
 
   depends_on :python if MacOS.version <= :snow_leopard
 
