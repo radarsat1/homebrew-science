@@ -11,7 +11,7 @@ class Siconos < Formula
   depends_on "swig" => :build
   depends_on "bullet"
   depends_on "boost"
-  depends_on "numpy"
+  depends_on "numpy" => :python
   depends_on "hdf5"
   depends_on "vtk"
 
