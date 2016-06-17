@@ -7,7 +7,7 @@ class Siconos < Formula
   head "https://github.com/siconos/siconos.git"
 
   depends_on "cmake" => :build
-  depends_on :fortran => :build
+  depends_on :fortran
   depends_on "swig" => :build
   depends_on "bullet"
   depends_on "boost"
