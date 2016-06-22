@@ -11,7 +11,8 @@ class Siconos < Formula
   depends_on "swig" => :build
   depends_on "bullet"
   depends_on "boost"
-  depends_on "numpy" => :python
+  depends_on "numpy"
+  depends_on "scipy"
   depends_on "hdf5"
   depends_on "vtk"
 
@@ -36,23 +37,40 @@ class Siconos < Formula
     sha256 "6de44d8c482128efc12334641347a9c3e5098d807dd3c69e867fa8f84ec2a3f1"
   end
 
+  # six needed by h5py
+  resource "six" do
+    url "https://files.pythonhosted.org/packages/4e/aa/73683ca0c4237891e33562e3f55bcaab972869959b97b397637519d92035/six-1.4.1.tar.gz"
+    sha256 "f045afd6dffb755cc0411acb7ce9acc4de0e71261d4b5f91de2e68d9aa5f8367"
+  end
+
   def install
+    def pyver
+      Language::Python.major_minor_version "python"
+    end
+    pyinst = libexec/"vendor/lib/python#{pyver}/site-packages"
+
     # Install Python dependencies first
-    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
-    %w[cython h5py lxml].each do |r|
+    ENV.prepend_create_path "PYTHONPATH", pyinst
+    %w[cython six h5py lxml].each do |r|
       resource(r).stage do
         system "python", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
 
     # Install Siconos
-    ENV.prepend_create_path "PYTHONPATH", libexec+"lib/python2.7/site-packages"
+    ENV.prepend_create_path "PYTHONPATH", pyinst
     system "cmake", ".", "-DIN_SOURCE_BUILD=ON", "-DWITH_BULLET=ON", *std_cmake_args
     system "make", "install"
 
     # Install executables and set Python path
     bin.install Dir[libexec/"bin/*"]
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
+
+    # Make Python module dependencies available
+    dest_path = lib/"python#{pyver}/site-packages"
+    dest_path.mkpath
+    ENV.prepend_create_path "PYTHONPATH", pyinst
+    (dest_path/"homebrew-siconos.pth").write "#{pyinst}\n"
   end
 
   test do
