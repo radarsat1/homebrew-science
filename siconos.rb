@@ -106,6 +106,7 @@ class Siconos < Formula
       with Hdf5(mode='r+') as io:
         io.run(t0=0,T=1,h=1)
     EOS
-    system "siconos", (testpath/"test.py")
+    system "#{bin}/siconos", (testpath/"test.py")
+    system "python", (testpath/"test.py")
   end
 end
